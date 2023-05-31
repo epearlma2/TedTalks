@@ -1,5 +1,6 @@
 
 import './App.css';
+import { AppProvider } from "./AppState";
 
 /* 
   const options = {
@@ -28,15 +29,17 @@ import { Notes } from "./components/notes/notes";
 export const App = () => {
 
   return (
-    <HashRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Search />} />
-        <Route path="/speakers" element={<Speakers />} />
-        <Route path="/library" element={<Library />} />
-        <Route path="/notes" element={<Notes />} />
-      </Routes>
-    </HashRouter>
+    <AppProvider>
+      <HashRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Search />} />
+          <Route path="/speakers" element={<Speakers />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/notes" element={<Notes />} />
+        </Routes>
+      </HashRouter>
+    </AppProvider>
   );
 }
 export default App;

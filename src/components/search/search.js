@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactPlayer from 'react-player/lazy'
 import "./search.css";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { AppContext, AppProvider } from "../../AppState";
+import { Library } from "../library/library";
+
 
 const useStyles = makeStyles((theme) => ({
     formContainer: {
@@ -32,22 +35,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
+
 export const Search = () => {
+    const [savedTalks, setSavedTalks] = useState([]);
+    const { state, dispatch } = useContext(AppContext);
+    const saveTalk = (talk) => {
+        dispatch({ type: "SAVE_TALK", payload: talk });
+    };
     const classes = useStyles();
-    const [talks, setTalks] = useState([]); // State to store the API response
 
+    const [talks, setTalks] = useState(state.talks);
+    const [from_record_date, set_from_record_date] = useState(state.from_record_date);
+    const [to_record_date, set_to_record_date] = useState(state.to_record_date);
+    const [record_date, set_record_date] = useState(state.record_date);
+    const [from_publish_date, set_from_publish_date] = useState(state.from_publish_date);
+    const [to_publish_date, set_to_publish_date] = useState(state.to_publish_date);
+    const [publish_date, set_publish_date] = useState(state.publish_date);
+    const [audio_lang, set_audio_lang] = useState(state.audio_lang);
+    const [min_duration, set_min_duration] = useState(state.min_duration);
+    const [max_duration, set_max_duration] = useState(state.max_duration);
+    const [speaker, set_speaker] = useState(state.speaker);
+    const [topic, set_topic] = useState(state.topic);
 
-    const [from_record_date, set_from_record_date] = useState('');
-    const [to_record_date, set_to_record_date] = useState('');
-    const [record_date, set_record_date] = useState('');
-    const [from_publish_date, set_from_publish_date] = useState('');
-    const [to_publish_date, set_to_publish_date] = useState('');
-    const [publish_date, set_publish_date] = useState('');
-    const [audio_lang, set_audio_lang] = useState('');
-    const [min_duration, set_min_duration] = useState('');
-    const [max_duration, set_max_duration] = useState('');
-    const [speaker, set_speaker] = useState('');
-    const [topic, set_topic] = useState('');
     const getTalks = () => {
         const url = "https://ted-talks-api.p.rapidapi.com/talks?";
         const options = {
@@ -135,69 +145,99 @@ export const Search = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        getTalks(); // Call the getTalks function on form submission
+        getTalks();
+
+        // Dispatch an action to update the state
+        dispatch({
+            type: "UPDATE_STATE",
+            payload: {
+                talks,
+                from_record_date,
+                to_record_date,
+                record_date,
+                from_publish_date,
+                to_publish_date,
+                publish_date,
+                audio_lang,
+                min_duration,
+                max_duration,
+                speaker,
+                topic
+            }
+        });
+    };
+    const handleSaveTalk = (talk) => {
+        saveTalk(talk); // Dispatch an action to update the state
     };
 
     console.log("here is the talks array: ");
     console.log({ talks });
     return (
-        <center>
-            <div>
-                <h1>Ted Talk Search</h1>
-                <SearchForm
-                    handleSubmit={handleSubmit}
-                    classes={classes}
-                    from_record_date={from_record_date}
-                    set_from_record_date={set_from_record_date}
-                    to_record_date={to_record_date}
-                    set_to_record_date={set_to_record_date}
-                    record_date={record_date}
-                    set_record_date={set_record_date}
-                    from_publish_date={publish_date}
-                    set_from_publish_date={set_from_publish_date}
-                    to_publish_date={to_publish_date}
-                    set_to_publish_date={set_to_publish_date}
-                    publish_date={publish_date}
-                    set_publish_date={set_publish_date}
-                    audio_lang={audio_lang}
-                    set_audio_lang={set_audio_lang}
-                    min_duration={min_duration}
-                    set_min_duration={set_min_duration}
-                    max_duration={max_duration}
-                    set_max_duration={set_max_duration}
-                    speaker={speaker}
-                    set_speaker={set_speaker}
-                    topic={topic}
-                    set_topic={set_topic}
+        <AppProvider>
+            <center>
+                <div>
+                    <h1>Ted Talk Search</h1>
+                    <SearchForm
+                        handleSubmit={handleSubmit}
+                        classes={classes}
+                        from_record_date={from_record_date}
+                        set_from_record_date={set_from_record_date}
+                        to_record_date={to_record_date}
+                        set_to_record_date={set_to_record_date}
+                        record_date={record_date}
+                        set_record_date={set_record_date}
+                        from_publish_date={publish_date}
+                        set_from_publish_date={set_from_publish_date}
+                        to_publish_date={to_publish_date}
+                        set_to_publish_date={set_to_publish_date}
+                        publish_date={publish_date}
+                        set_publish_date={set_publish_date}
+                        audio_lang={audio_lang}
+                        set_audio_lang={set_audio_lang}
+                        min_duration={min_duration}
+                        set_min_duration={set_min_duration}
+                        max_duration={max_duration}
+                        set_max_duration={set_max_duration}
+                        speaker={speaker}
+                        set_speaker={set_speaker}
+                        topic={topic}
+                        set_topic={set_topic}
 
-                />
-                {/* <button className="submitButton" onClick={getTalks}>Test</button> */}
-                {/* Display the API response */}
-                {talks && talks.length > 0 && (
-                    <div className={classes.videoContainer}>
-                        {talks.map((talk) => (
-                            <div key={talk.id}>
-                                <h2>{talk.title}</h2>
-                                <div style={{}}>
-                                    <ReactPlayer
-                                        url={talk.mp4_url}
-                                        playing={false}
-                                        controls={true}
-                                        loop={true}
-                                        muted={false}
-                                        playsinline={true}
-                                    />
-                                </div>
-                                {/*                             <ReactPlayer className={classes.video} controls>
+                    />
+                    {/* <button className="submitButton" onClick={getTalks}>Test</button> */}
+                    {/* Display the API response */}
+                    {talks && talks.length > 0 && (
+                        <div className={classes.videoContainer}>
+                            {talks.map((talk) => (
+                                <div key={talk.id}>
+                                    <h2>{talk.title}</h2>
+                                    <p>Speaker: {talk.speaker}</p>
+                                    <div style={{}}>
+                                        <ReactPlayer
+                                            url={talk.mp4_url}
+                                            playing={false}
+                                            controls={true}
+                                            loop={true}
+                                            muted={false}
+                                            playsinline={true}
+                                        />
+                                    </div>
+                                    <div>
+                                        <button className="saveButton" onClick={() => handleSaveTalk(talk)}>Save</button>
+                                        <button>Watch</button>
+                                    </div>
+                                    {/*                             <ReactPlayer className={classes.video} controls>
                                 <source src={talk.video_url} type="video/mp4" />
                             </ReactPlayer> */}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-            </div>
-        </center>
+                </div>
+
+            </center>
+        </AppProvider>
     );
 }
 
@@ -236,7 +276,7 @@ export const SearchForm = ({
                 <div style={{ alignItems: "left" }} >
                     <div>
 
-                        <label htmlFor="from_record_date" className={classes.label}>Recorded From:</label>
+                        <label htmlFor="from_record_date" className={classes.label}>Recorded From: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="from_record_date"
@@ -245,7 +285,7 @@ export const SearchForm = ({
                         />
                     </div>
                     <div>
-                        <label htmlFor="to_record_date" className={classes.label}>Recorded To:</label>
+                        <label htmlFor="to_record_date" className={classes.label}>Recorded To: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="to_record_date"
@@ -254,7 +294,7 @@ export const SearchForm = ({
                         />
                     </div>
                     <div>
-                        <label htmlFor="record_date" className={classes.label}>Recorded Date:</label>
+                        <label htmlFor="record_date" className={classes.label}>Recorded Date: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="record_date"
@@ -263,7 +303,7 @@ export const SearchForm = ({
                         />
                     </div>
                     <div>
-                        <label htmlFor="from_publish_date" className={classes.label}>Published From:</label>
+                        <label htmlFor="from_publish_date" className={classes.label}>Published From: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="from_publish_date"
@@ -272,7 +312,7 @@ export const SearchForm = ({
                         />
                     </div>
                     <div>
-                        <label htmlFor="to_publish_date" className={classes.label}>Published To:</label>
+                        <label htmlFor="to_publish_date" className={classes.label}>Published To: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="to_publish_date"
@@ -281,7 +321,7 @@ export const SearchForm = ({
                         />
                     </div>
                     <div>
-                        <label htmlFor="publish_date" className={classes.label}>Publish Date:</label>
+                        <label htmlFor="publish_date" className={classes.label}>Publish Date: (yyyy-mm-dd)</label>
                         <input
                             type="text"
                             id="publish_date"
