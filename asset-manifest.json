@@ -1,15 +1,41 @@
 {
   "files": {
-    "main.css": "/TedTalks/static/css/main.073c9b0a.css",
-    "main.js": "/TedTalks/static/js/main.69f2bdcb.js",
+    "main.css": "/TedTalks/static/css/main.319e75e2.css",
+    "main.js": "/TedTalks/static/js/main.ded734a7.js",
+    "reactPlayerYouTube.js": "/TedTalks/static/js/reactPlayerYouTube.8b8aa8d4.chunk.js",
+    "reactPlayerSoundCloud.js": "/TedTalks/static/js/reactPlayerSoundCloud.9d34ae94.chunk.js",
+    "reactPlayerVimeo.js": "/TedTalks/static/js/reactPlayerVimeo.137134f3.chunk.js",
+    "reactPlayerFacebook.js": "/TedTalks/static/js/reactPlayerFacebook.0428ad6e.chunk.js",
+    "reactPlayerStreamable.js": "/TedTalks/static/js/reactPlayerStreamable.c0c44b8e.chunk.js",
+    "reactPlayerWistia.js": "/TedTalks/static/js/reactPlayerWistia.e7893de4.chunk.js",
+    "reactPlayerTwitch.js": "/TedTalks/static/js/reactPlayerTwitch.7cafa33e.chunk.js",
+    "reactPlayerDailyMotion.js": "/TedTalks/static/js/reactPlayerDailyMotion.fd9e55f6.chunk.js",
+    "reactPlayerMixcloud.js": "/TedTalks/static/js/reactPlayerMixcloud.9ed321f0.chunk.js",
+    "reactPlayerVidyard.js": "/TedTalks/static/js/reactPlayerVidyard.b5f512ea.chunk.js",
+    "reactPlayerKaltura.js": "/TedTalks/static/js/reactPlayerKaltura.dea67f74.chunk.js",
+    "reactPlayerFilePlayer.js": "/TedTalks/static/js/reactPlayerFilePlayer.64f9dcfd.chunk.js",
+    "reactPlayerPreview.js": "/TedTalks/static/js/reactPlayerPreview.8a01d6f6.chunk.js",
     "static/js/787.e405e791.chunk.js": "/TedTalks/static/js/787.e405e791.chunk.js",
     "index.html": "/TedTalks/index.html",
-    "main.073c9b0a.css.map": "/TedTalks/static/css/main.073c9b0a.css.map",
-    "main.69f2bdcb.js.map": "/TedTalks/static/js/main.69f2bdcb.js.map",
+    "main.319e75e2.css.map": "/TedTalks/static/css/main.319e75e2.css.map",
+    "main.ded734a7.js.map": "/TedTalks/static/js/main.ded734a7.js.map",
+    "reactPlayerYouTube.8b8aa8d4.chunk.js.map": "/TedTalks/static/js/reactPlayerYouTube.8b8aa8d4.chunk.js.map",
+    "reactPlayerSoundCloud.9d34ae94.chunk.js.map": "/TedTalks/static/js/reactPlayerSoundCloud.9d34ae94.chunk.js.map",
+    "reactPlayerVimeo.137134f3.chunk.js.map": "/TedTalks/static/js/reactPlayerVimeo.137134f3.chunk.js.map",
+    "reactPlayerFacebook.0428ad6e.chunk.js.map": "/TedTalks/static/js/reactPlayerFacebook.0428ad6e.chunk.js.map",
+    "reactPlayerStreamable.c0c44b8e.chunk.js.map": "/TedTalks/static/js/reactPlayerStreamable.c0c44b8e.chunk.js.map",
+    "reactPlayerWistia.e7893de4.chunk.js.map": "/TedTalks/static/js/reactPlayerWistia.e7893de4.chunk.js.map",
+    "reactPlayerTwitch.7cafa33e.chunk.js.map": "/TedTalks/static/js/reactPlayerTwitch.7cafa33e.chunk.js.map",
+    "reactPlayerDailyMotion.fd9e55f6.chunk.js.map": "/TedTalks/static/js/reactPlayerDailyMotion.fd9e55f6.chunk.js.map",
+    "reactPlayerMixcloud.9ed321f0.chunk.js.map": "/TedTalks/static/js/reactPlayerMixcloud.9ed321f0.chunk.js.map",
+    "reactPlayerVidyard.b5f512ea.chunk.js.map": "/TedTalks/static/js/reactPlayerVidyard.b5f512ea.chunk.js.map",
+    "reactPlayerKaltura.dea67f74.chunk.js.map": "/TedTalks/static/js/reactPlayerKaltura.dea67f74.chunk.js.map",
+    "reactPlayerFilePlayer.64f9dcfd.chunk.js.map": "/TedTalks/static/js/reactPlayerFilePlayer.64f9dcfd.chunk.js.map",
+    "reactPlayerPreview.8a01d6f6.chunk.js.map": "/TedTalks/static/js/reactPlayerPreview.8a01d6f6.chunk.js.map",
     "787.e405e791.chunk.js.map": "/TedTalks/static/js/787.e405e791.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.69f2bdcb.js"
+    "static/css/main.319e75e2.css",
+    "static/js/main.ded734a7.js"
   ]
 }
