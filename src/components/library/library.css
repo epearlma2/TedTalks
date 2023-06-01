@@ -1,0 +1,50 @@
+.watchButton {
+    margin: "20px";
+    background-color: #3f51b5;
+}
+
+.watchButton:hover {
+    background-color: #ca0afa;
+}
+
+.talks-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.talks-section {
+    flex: 1;
+}
+
+.border {
+    width: 10px;
+    background-color: #ccc;
+    margin: 0 10px;
+}
+
+.history-heading {
+    text-align: left;
+    color: #0606fc;
+    font-size: 36px;
+}
+
+.library-container {
+    padding: 50px;
+    margin: 50px;
+}
+
+.library-heading {
+    text-align: center;
+    font-size: 48px;
+    color: red;
+}
+
+.saved-talks {
+    color: #0606fc;
+    font-size: 36px;
+}
+
+.description {
+    width: 640px;
+}

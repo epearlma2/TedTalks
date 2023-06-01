@@ -13,9 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 const pages = [
     { name: "Search", path: "/" },
-    { name: "Speakers", path: "/speakers" },
     { name: "My Library", path: "/library" },
-    { name: "Notes", path: "/notes" },
+    { name: "Notes", path: "/notespage" },
 ];
 
 export function Header() {
@@ -34,32 +33,40 @@ export function Header() {
     };
 
     return (
-        <AppBar position="static"
+        <AppBar
+            position="static"
             sx={{
                 background: '-webkit-linear-gradient(#ffabc8, #b0245b)',
                 color: 'black'
-            }}>
-            <Container maxWidth="xl">
+            }}
+        >
+            <Container maxWidth="xl" className="logo">
                 <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
+                    <Box
                         sx={{
-                            mr: 5,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "fantasy",
-                            fontWeight: 500,
-                            letterSpacing: ".2rem",
-                            color: "inherit",
-                            textDecoration: "none",
+                            display: "flex",
+                            alignItems: "center",
                         }}
                     >
-                        Ted Talks
-                    </Typography>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={openNavMenu}
+                            sx={{ mr: 2 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <img
 
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                            src="https://logodix.com/logo/822921.png"
+                            alt="TedEd Logo"
+                            style={{ height: 100, width: 200, marginTop: -30 }}
+                        />
+                    </Box>
+                    <Box
+                        sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+                    >
                         {pages.map((page) => (
                             <Button
                                 key={page.name}

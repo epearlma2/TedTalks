@@ -1,3 +1,111 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Change alignment to flex-start */
+    margin-top: 20px;
+}
+
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    /* Align labels to the left */
+}
+
+input[type="text"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: left;
+    /* Align input text to the left */
+}
+
 .submitButton {
-    width: 80px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+    /* Align submit button to the left */
+}
+
+.centeredForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+/* Center the content */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style the container */
+.videoContainer {
+    margin: "20px",
+}
+
+/* Style the title */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #ccc;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.watchButton {
+    margin: "20px";
+    background-color: #3f51b5;
+}
+
+.watchButton:hover {
+    background-color: #ca0afa;
+}
+
+.saveButton {
+    margin: "20px";
+    background-color: #3f51b5;
+}
+
+.saveButton:hover {
+    background-color: #ca0afa;
+}
+
+.description {
+    width: 640px;
+}
+
+
+h2,
+h3 {
+    color: #3f51b5;
+}
+
+h1 {
+    font-size: 48px;
+    color: red;
+}
+
+label {
+    color: #3f51b5;
 }

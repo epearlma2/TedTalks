@@ -1,49 +1,15 @@
 import React, { useState, useContext } from "react";
 import ReactPlayer from 'react-player/lazy'
 import "./search.css";
-import { TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { AppContext, AppProvider } from "../../AppState";
-import { Library } from "../library/library";
-
-
-const useStyles = makeStyles((theme) => ({
-    formContainer: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "left",
-        marginTop: "50px",
-    },
-    label: {
-        fontWeight: "bold",
-        marginBottom: "5px",
-    },
-    input: {
-        marginBottom: "20px",
-        width: "100%",
-    },
-    submitButton: {
-        marginTop: "20px",
-        width: "10%"
-    },
-    videoContainer: {
-        marginTop: "20px",
-    },
-    video: {
-        width: "100%",
-    },
-}));
-
-
+import { useNavigate, useLocation, BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 export const Search = () => {
-    const [savedTalks, setSavedTalks] = useState([]);
+
     const { state, dispatch } = useContext(AppContext);
-    const saveTalk = (talk) => {
-        dispatch({ type: "SAVE_TALK", payload: talk });
-    };
-    const classes = useStyles();
+    const [savedTalks, setSavedTalks] = useState([]);
+    const [watchedTalks, setWatchedTalks] = useState([]);
 
     const [talks, setTalks] = useState(state.talks);
     const [from_record_date, set_from_record_date] = useState(state.from_record_date);
@@ -57,6 +23,8 @@ export const Search = () => {
     const [max_duration, set_max_duration] = useState(state.max_duration);
     const [speaker, set_speaker] = useState(state.speaker);
     const [topic, set_topic] = useState(state.topic);
+
+    const navigate = useNavigate();
 
     const getTalks = () => {
         const url = "https://ted-talks-api.p.rapidapi.com/talks?";
@@ -131,11 +99,9 @@ export const Search = () => {
         if (max_duration) {
             queryString += `&max_duration=${max_duration}`;
         }
-
         if (speaker) {
             queryString += `&speaker=${speaker}`;
         }
-
         if (topic) {
             queryString += `&topic=${topic}`;
         }
@@ -167,8 +133,13 @@ export const Search = () => {
         });
     };
     const handleSaveTalk = (talk) => {
-        saveTalk(talk); // Dispatch an action to update the state
+        dispatch({ type: "SAVE_TALK", payload: talk });
     };
+    const handleWatchTalk = (talk) => {
+        dispatch({ type: "WATCHED_TALK", payload: talk });
+        navigate(`/video/${talk.id}`, { state: talk });
+    };
+
 
     console.log("here is the talks array: ");
     console.log({ talks });
@@ -179,7 +150,6 @@ export const Search = () => {
                     <h1>Ted Talk Search</h1>
                     <SearchForm
                         handleSubmit={handleSubmit}
-                        classes={classes}
                         from_record_date={from_record_date}
                         set_from_record_date={set_from_record_date}
                         to_record_date={to_record_date}
@@ -207,11 +177,13 @@ export const Search = () => {
                     {/* <button className="submitButton" onClick={getTalks}>Test</button> */}
                     {/* Display the API response */}
                     {talks && talks.length > 0 && (
-                        <div className={classes.videoContainer}>
+                        <div className={"videoContainer"}>
                             {talks.map((talk) => (
                                 <div key={talk.id}>
                                     <h2>{talk.title}</h2>
-                                    <p>Speaker: {talk.speaker}</p>
+                                    <div className="description">
+                                        <p>{talk.description}</p>
+                                    </div>
                                     <div style={{}}>
                                         <ReactPlayer
                                             url={talk.mp4_url}
@@ -224,7 +196,7 @@ export const Search = () => {
                                     </div>
                                     <div>
                                         <button className="saveButton" onClick={() => handleSaveTalk(talk)}>Save</button>
-                                        <button>Watch</button>
+                                        <button className="watchButton" onClick={() => handleWatchTalk(talk)}>Watch</button>
                                     </div>
                                     {/*                             <ReactPlayer className={classes.video} controls>
                                 <source src={talk.video_url} type="video/mp4" />
@@ -243,7 +215,6 @@ export const Search = () => {
 
 export const SearchForm = ({
     handleSubmit,
-    classes,
     from_record_date,
     set_from_record_date,
     to_record_date,
@@ -261,123 +232,247 @@ export const SearchForm = ({
     min_duration,
     set_min_duration,
     max_duration,
-    set_max_duration,
     speaker,
     set_speaker,
+    set_max_duration,
     topic,
     set_topic
 
 }) => {
 
 
+
     return (
         <center>
-            <form style={{ display: "flex", alignItems: "center" }} onSubmit={handleSubmit} className={classes.formContainer}>
-                <div style={{ alignItems: "left" }} >
-                    <div>
+            <form
+                style={{ display: "flex", alignItems: "center" }}
+                onSubmit={handleSubmit}
+                className={"formContainer"}
+            >
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label htmlFor="from_record_date" className={"label"}>
+                                    Recorded From: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="from_record_date"
+                                    value={from_record_date}
+                                    onChange={(e) => set_from_record_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="to_record_date" className={"label"}>
+                                    Recorded To: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="to_record_date"
+                                    value={to_record_date}
+                                    onChange={(e) => set_to_record_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="record_date" className={"label"}>
+                                    Recorded Date: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="record_date"
+                                    value={record_date}
+                                    onChange={(e) => set_record_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="from_publish_date" className={"label"}>
+                                    Published From: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="from_publish_date"
+                                    value={from_publish_date}
+                                    onChange={(e) => set_from_publish_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="to_publish_date" className={"label"}>
+                                    Published To: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="to_publish_date"
+                                    value={to_publish_date}
+                                    onChange={(e) => set_to_publish_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="publish_date" className={"label"}>
+                                    Publish Date: (yyyy-mm-dd)
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="publish_date"
+                                    value={publish_date}
+                                    onChange={(e) => set_publish_date(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="audio_lang" className={"label"}>
+                                    Audio Language:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="audio_lang"
+                                    value={audio_lang}
+                                    onChange={(e) => set_audio_lang(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="min_duration" className={"label"}>
+                                    Minimum Duration:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="min_duration"
+                                    value={min_duration}
+                                    onChange={(e) => set_min_duration(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="max_duration" className={"label"}>
+                                    Maximum Duration:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="max_duration"
+                                    value={max_duration}
+                                    onChange={(e) => set_max_duration(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="speaker" className={"label"}>
+                                    Speaker:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="speaker"
+                                    value={speaker}
+                                    onChange={(e) => set_speaker(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="topic" className={"label"}>
+                                    Topic:
+                                </label>
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="topic"
+                                    value={topic}
+                                    onChange={(e) => set_topic(e.target.value)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2} align="center">
+                                <button className="submitButton" type="submit">
+                                    Submit
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                        <label htmlFor="from_record_date" className={classes.label}>Recorded From: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="from_record_date"
-                            value={from_record_date}
-                            onChange={(e) => set_from_record_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="to_record_date" className={classes.label}>Recorded To: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="to_record_date"
-                            value={to_record_date}
-                            onChange={(e) => set_to_record_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="record_date" className={classes.label}>Recorded Date: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="record_date"
-                            value={record_date}
-                            onChange={(e) => set_record_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="from_publish_date" className={classes.label}>Published From: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="from_publish_date"
-                            value={from_publish_date}
-                            onChange={(e) => set_from_publish_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="to_publish_date" className={classes.label}>Published To: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="to_publish_date"
-                            value={to_publish_date}
-                            onChange={(e) => set_to_publish_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="publish_date" className={classes.label}>Publish Date: (yyyy-mm-dd)</label>
-                        <input
-                            type="text"
-                            id="publish_date"
-                            value={publish_date}
-                            onChange={(e) => set_publish_date(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="audio_lang" className={classes.label}>Audio Language:</label>
-                        <input
-                            type="text"
-                            id="audio_lang"
-                            value={audio_lang}
-                            onChange={(e) => set_audio_lang(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="min_duration" className={classes.label}>Minimum Duration:</label>
-                        <input
-                            type="text"
-                            id="min_duration"
-                            value={min_duration}
-                            onChange={(e) => set_min_duration(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="max_duration" className={classes.label}>Maximum Duration:</label>
-                        <input
-                            type="text"
-                            id="max_duration"
-                            value={max_duration}
-                            onChange={(e) => set_max_duration(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="speaker" className={classes.label}>Speaker:</label>
-                        <input
-                            type="text"
-                            id="speaker"
-                            value={speaker}
-                            onChange={(e) => set_speaker(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="topic" className={classes.label}>Topic:</label>
-                        <input
-                            type="text"
-                            id="topic"
-                            value={topic}
-                            onChange={(e) => set_topic(e.target.value)}
-                        />
-                    </div>
-
-                    <button className="submitButton" type="submit">Submit</button>
-                </div>
             </form>
         </center>
     );
 };
+
+
+export const VideoPage = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { state: talk } = location;
+
+    const [notes, setNotes] = useState("");
+
+    const handleNotesChange = (event) => {
+        setNotes(event.target.value);
+    };
+    console.log(talk);
+    // Render the video and other details
+    return (
+        <div>
+            {talk && (
+                <div>
+                    <h2>Title: {talk.title}</h2>
+                    <p>Published: {talk.publish_date}</p>
+                    <p>Topic: {talk.topic}</p>
+                    <p>Description: {talk.description}</p>
+                    <video src={talk.video_url} controls />
+                    <p>Enter Notes here: </p>
+                    <textarea value={notes} onChange={handleNotesChange} />
+                </div>
+            )}
+        </div>
+    );
+};
+
+
+// App component...
+
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Search />} />
+                <Route path="/video/:id" element={<VideoPage />} />
+            </Routes>
+        </Router>
+    );
+};
+
+export default App;

@@ -3,6 +3,7 @@ import React, { createContext, useReducer } from "react";
 // Create the initial state
 const initialState = {
     savedTalks: [],
+    watchedTalks: []
 };
 
 // Create the context
@@ -16,6 +17,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 savedTalks: [...state.savedTalks, action.payload],
+            };
+        case "WATCHED_TALK":
+            return {
+                ...state,
+                watchedTalks: [...state.watchedTalks, action.payload],
             };
         case "UPDATE_STATE":
             return {
